@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:LyncUtility"
         xmlns:controls="clr-namespace:Microsoft.Lync.Controls;assembly=Microsoft.Lync.Controls" x:Class="LyncUtility.MainWindow"
         mc:Ignorable="d"
-        Title="Lync Utility" Height="307" Width="359"
+        Title="Lync Utility" Height="327" Width="359"
         Loaded="Window_Loaded">
    <!-- Main Panel -->
    <StackPanel Margin="5">
@@ -34,16 +34,17 @@
       <StackPanel x:Name="futureStatePanel">
          <Label Margin="5,0" Height="23" Content="Then set status to"/>
          <StackPanel Margin="20,0">
-            <RadioButton Content="Available" Checked="OnBecomeAvailable" IsChecked="True"/>
+            <RadioButton Content="Available" Checked="OnBecomeAvailable"/>
             <RadioButton Content="Busy" Checked="OnBecomeBusy"/>
             <RadioButton Content="Do Not Disturb" Checked="OnBecomeDoNotDisturb"/>
             <RadioButton Content="Appear Away" Checked="OnBecomeAway"/>
+            <RadioButton Content="Automatic" Checked="OnBecomeAutomatic" IsChecked="True"/>
          </StackPanel>
       </StackPanel>
       <!-- Time left -->
       <StackPanel Margin="5" Orientation="Horizontal">
-         <Label Content="Time left"/>
-         <Label x:Name="timeLeftLabel" Content="none" Margin="-8,0,0,0"/>
+         <Label Content="Time left:"/>
+         <Label x:Name="timeLeftLabel" Content="none" Margin="-6,0,0,0"/>
       </StackPanel>
    </StackPanel>
 </Window>

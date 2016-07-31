@@ -212,6 +212,11 @@ namespace LyncUtility
       {
          futureAvailability = ContactAvailability.Away;
       }
+
+      private void OnBecomeAutomatic(object sender, RoutedEventArgs e)
+      {
+         futureAvailability = ContactAvailability.None;
+      }
       private void OnStartButtonClick(object sender, RoutedEventArgs e)
       {
          float delayHours;
