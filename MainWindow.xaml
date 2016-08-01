@@ -11,9 +11,10 @@
    <!-- Main Panel -->
    <StackPanel Margin="5">
 
+      <!-- Client State (status, message, picture, name) -->
       <controls:MyStatusArea/>
 
-      <!-- Client State -->
+      <!-- Login state -->
       <StackPanel Orientation="Horizontal">
          <TextBlock Margin="5 0" VerticalAlignment="Center"
                        Text="Client State:" Width="80" />
@@ -23,7 +24,7 @@
                     x:Name="signInOutButton" Content="Sign Out"
                     Click="SignInOutButton_Click"/>
       </StackPanel>
-      <!-- Client State -->
+      <!-- Set and start timer -->
       <StackPanel Margin="5" Orientation="Horizontal">
       <Button x:Name="startButton" Content="Start" Width="60" Click="OnStartButtonClick"/>
          <Label Height="23" Content="Then wait"/>
