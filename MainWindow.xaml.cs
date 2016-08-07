@@ -135,10 +135,17 @@ namespace LyncUtility
                   //Sign in If the current client state is Signed Out
                   lyncClient.BeginSignIn(null, null, null, SignInCallback, null);
                }
+               else if (lyncClient.State == ClientState.SignedIn)
+               {
+                  Trace.WriteLine("OnTick: Timed out, signed in, setting availability");
+                  SetAvailability(futureAvailability);
+               }
                else
                {
-                  Trace.WriteLine("OnTick: Timed out, setting availability");
-                  SetAvailability(futureAvailability);
+                  // We've no idea what's going on so just wait a bit and hope it sorts itself out
+                  Trace.WriteLine("OnTick: Timed out, waiting a bit because lync client state=" + lyncClient.State);
+                  endTime = DateTime.Now + TimeSpan.FromSeconds(5);
+                  return;
                }
             }
             catch (LyncClientException lyncClientException)
