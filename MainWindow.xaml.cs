@@ -1,6 +1,7 @@
 ﻿using Microsoft.Lync.Model;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -47,7 +48,7 @@ namespace LyncUtility
          }
          catch (ClientNotFoundException clientNotFoundException)
          {
-            Console.WriteLine(clientNotFoundException);
+            Trace.WriteLine(clientNotFoundException);
             return;
          }
          catch (NotStartedByUserException notStartedByUserException)
@@ -65,7 +66,7 @@ namespace LyncUtility
             if (IsLyncException(systemException))
             {
                // Log the exception thrown by the Lync Model API.
-               Console.WriteLine("Error: " + systemException);
+               Trace.WriteLine("Error: " + systemException);
                return;
             }
             else
@@ -121,6 +122,7 @@ namespace LyncUtility
          TimeSpan timeLeft = endTime - DateTime.Now;
          if (timeLeft > TimeSpan.FromSeconds(1))
          {
+            // Just a boring tick, just update the time left
             timeLeftLabel.Content = timeLeft.ToString(@"hh\:mm\:ss");
          }
          else
@@ -129,22 +131,26 @@ namespace LyncUtility
             {
                if (lyncClient.State == ClientState.SignedOut)
                {
+                  Trace.WriteLine("OnTick: Signed out, signing in");
                   //Sign in If the current client state is Signed Out
                   lyncClient.BeginSignIn(null, null, null, SignInCallback, null);
                }
                else
+               {
+                  Trace.WriteLine("OnTick: Timed out, setting availability");
                   SetAvailability(futureAvailability);
+               }
             }
             catch (LyncClientException lyncClientException)
             {
-               Console.WriteLine(lyncClientException);
+               Trace.WriteLine("Lync Exception: "+lyncClientException);
             }
             catch (SystemException systemException)
             {
                if (IsLyncException(systemException))
                {
                   // Log the exception thrown by the Lync Model API.
-                  Console.WriteLine("Error: " + systemException);
+                  Trace.WriteLine("Lync Exception: " + systemException);
                }
                else
                {
@@ -152,6 +158,7 @@ namespace LyncUtility
                   throw;
                }
             }
+            Trace.WriteLine("OnTick: Stopping countdown timer");
             timeLeftLabel.Content = "none";
             clock.Stop();
          }
@@ -177,14 +184,14 @@ namespace LyncUtility
          }
          catch (LyncClientException lyncClientException)
          {
-            Console.WriteLine(lyncClientException);
+            Trace.WriteLine(lyncClientException);
          }
          catch (SystemException systemException)
          {
             if (IsLyncException(systemException))
             {
                // Log the exception thrown by the Lync Model API.
-               Console.WriteLine("Error: " + systemException);
+               Trace.WriteLine("Error: " + systemException);
             }
             else
             {
@@ -272,14 +279,14 @@ namespace LyncUtility
          }
          catch (LyncClientException e)
          {
-            Console.WriteLine(e);
+            Trace.WriteLine(e);
          }
          catch (SystemException systemException)
          {
             if (IsLyncException(systemException))
             {
                // Log the exception thrown by the Lync Model API.
-               Console.WriteLine("Error: " + systemException);
+               Trace.WriteLine("Error: " + systemException);
             }
             else
             {
@@ -302,14 +309,14 @@ namespace LyncUtility
          }
          catch (LyncClientException e)
          {
-            Console.WriteLine(e);
+            Trace.WriteLine(e);
          }
          catch (SystemException systemException)
          {
             if (IsLyncException(systemException))
             {
                // Log the exception thrown by the Lync Model API.
-               Console.WriteLine("Error: " + systemException);
+               Trace.WriteLine("Error: " + systemException);
             }
             else
             {
@@ -342,14 +349,14 @@ namespace LyncUtility
          }
          catch (LyncClientException e)
          {
-            Console.WriteLine(e);
+            Trace.WriteLine(e);
          }
          catch (SystemException systemException)
          {
             if (IsLyncException(systemException))
             {
                // Log the exception thrown by the Lync Model API.
-               Console.WriteLine("Error: " + systemException);
+               Trace.WriteLine("Error: " + systemException);
             }
             else
             {
@@ -366,6 +373,7 @@ namespace LyncUtility
       }
       private void SetAvailability(ContactAvailability NewAvailability)
       {
+         Trace.WriteLine("SetAvailability("+NewAvailability.ToString()+")");
          //Add the availability to the contact information items to be published
          Dictionary<PublishableContactInformationType, object> newInformation =
              new Dictionary<PublishableContactInformationType, object>();
@@ -378,14 +386,14 @@ namespace LyncUtility
          }
          catch (LyncClientException lyncClientException)
          {
-            Console.WriteLine(lyncClientException);
+            Trace.WriteLine(lyncClientException);
          }
          catch (SystemException systemException)
          {
             if (IsLyncException(systemException))
             {
                // Log the exception thrown by the Lync Model API.
-               Console.WriteLine("Error: " + systemException);
+               Trace.WriteLine("Lync Exception: " + systemException);
             }
             else
             {
