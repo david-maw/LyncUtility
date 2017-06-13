@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -22,6 +23,7 @@ namespace LyncUtility
       DateTime endTime = DateTime.MinValue;
       ContactAvailability currentAvailability = 0, futureAvailability = 0;
       #endregion
+      #region Constructor
       public MainWindow()
       {
          InitializeComponent();
@@ -31,7 +33,31 @@ namespace LyncUtility
          // Create a timer, but do not start it yet
          clock.Interval = 1000; // Milliseconds
          clock.Tick += OnTick;
+
+         // We want to use a notify icon in the system tray, but WPF doesn't have one so we will use the one from Windows Forms instead
+         var systrayContextMenu = new System.Windows.Forms.ContextMenu();
+         systrayContextMenu.MenuItems.Add("E&xit", (s, o) => { this.Close(); });
+         systrayContextMenu.MenuItems.Add("&Open", ActivateForm);
+
+         // Create the systray icon
+         var notifyIcon = new System.Windows.Forms.NotifyIcon();
+         // The Icon property sets the icon that will appear in the systray for this application.
+         using (Stream stream = Application.GetResourceStream(new Uri("LyncUtility.ico", UriKind.Relative)).Stream)
+         {
+            notifyIcon.Icon = new Icon(stream);
+         }
+
+         // The ContextMenu property sets the menu that will appear when the systray icon is right clicked.
+         notifyIcon.ContextMenu = systrayContextMenu;
+
+         // Set the text that will be displayed when the mouse hovers over the systray icon.
+         notifyIcon.Text = "LyncUtility";
+         notifyIcon.Visible = true;
+
+         // Allow the double click on the systray icon to activate the form.
+         notifyIcon.DoubleClick += ActivateForm;
       }
+      #endregion
       #region Handlers for user interface events
       /// <summary>
       /// Handler for the Loaded event of the Window.
@@ -169,6 +195,21 @@ namespace LyncUtility
             timeLeftLabel.Content = "none";
             clock.Stop();
          }
+      }
+
+      private void ActivateForm(object Sender, EventArgs e)
+      {
+         // Show the form when the user double clicks on the notify icon.
+
+         // Set the WindowState to normal if the form is minimized.
+         if (this.WindowState == WindowState.Minimized)
+         {
+            this.ShowInTaskbar = true;
+            this.WindowState = WindowState.Normal;
+         }
+
+         // Activate the form.
+         this.Activate();
       }
 
       /// <summary>
@@ -407,6 +448,25 @@ namespace LyncUtility
                // Rethrow the SystemException which did not come from the Lync Model API.
                throw;
             }
+         }
+      }
+
+      private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+      {
+         if (this.WindowState == WindowState.Normal)
+         {// Treat close as minimize
+            this.WindowState = WindowState.Minimized;
+            this.ShowInTaskbar = false;
+            e.Cancel = true;
+            return;
+         }
+         if (endTime > DateTime.Now)
+         {
+            var result = MessageBox.Show("Future action is scheduled, do you want to close and ignore it", "LyncUtility", MessageBoxButton.YesNoCancel);
+            if (result == MessageBoxResult.Yes)
+               return;
+            else
+               e.Cancel = true;
          }
       }
 

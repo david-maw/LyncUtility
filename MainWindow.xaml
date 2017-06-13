@@ -7,8 +7,8 @@
         xmlns:controls="clr-namespace:Microsoft.Lync.Controls;assembly=Microsoft.Lync.Controls" x:Class="LyncUtility.MainWindow"
         mc:Ignorable="d"
         Title="Lync Utility" Height="327" Width="359"
-        Loaded="Window_Loaded">
-   <!-- Main Panel -->
+        Loaded="Window_Loaded" Closing="Window_Closing">
+    <!-- Main Panel -->
    <StackPanel Margin="5">
 
       <!-- Client State (status, message, picture, name) -->
@@ -47,5 +47,5 @@
          <Label Content="Time left:"/>
          <Label x:Name="timeLeftLabel" Content="none" Margin="-6,0,0,0"/>
       </StackPanel>
-   </StackPanel>
+    </StackPanel>
 </Window>
