@@ -6,46 +6,49 @@
         xmlns:local="clr-namespace:LyncUtility"
         xmlns:controls="clr-namespace:Microsoft.Lync.Controls;assembly=Microsoft.Lync.Controls" x:Class="LyncUtility.MainWindow"
         mc:Ignorable="d"
-        Title="Lync Utility" Height="327" Width="359"
+        Title="Lync Utility" Height="371.98" Width="341.508"
         Loaded="Window_Loaded" Closing="Window_Closing">
     <!-- Main Panel -->
-   <StackPanel Margin="5">
+    <StackPanel Margin="5">
 
-      <!-- Client State (status, message, picture, name) -->
-      <controls:MyStatusArea/>
+        <!-- Client State (status, message, picture, name) -->
+        <controls:MyStatusArea/>
 
-      <!-- Login state -->
-      <StackPanel Orientation="Horizontal">
-         <TextBlock Margin="5 0" VerticalAlignment="Center"
+        <!-- Login state -->
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Margin="5 0" VerticalAlignment="Center"
                        Text="Client State:" Width="80" />
-         <TextBlock Margin="5" VerticalAlignment="Center"
+            <TextBlock Margin="5" VerticalAlignment="Center"
                        x:Name="clientStateTextBox" Width="140"/>
-         <Button Margin="5" VerticalAlignment="Center" Width="60"
+            <Button Margin="5" VerticalAlignment="Center" Width="60"
                     x:Name="signInOutButton" Content="Sign Out"
                     Click="SignInOutButton_Click"/>
-      </StackPanel>
-      <!-- Set and start timer -->
-      <StackPanel Margin="5" Orientation="Horizontal">
-      <Button x:Name="startButton" Content="Start" Width="60" Click="OnStartButtonClick"/>
-         <Label Height="23" Content="Then wait"/>
-         <TextBox x:Name="delayTime" Height="23" TextWrapping="Wrap" Text="1" Width="60"/>
-         <Label Content="hours"/>
-      </StackPanel>
-      <!-- Requested future state -->
-      <StackPanel x:Name="futureStatePanel">
-         <Label Margin="5,0" Height="23" Content="Then set status to"/>
-         <StackPanel Margin="20,0">
-            <RadioButton Content="Available" Checked="OnBecomeAvailable"/>
-            <RadioButton Content="Busy" Checked="OnBecomeBusy"/>
-            <RadioButton Content="Do Not Disturb" Checked="OnBecomeDoNotDisturb"/>
-            <RadioButton Content="Appear Away" Checked="OnBecomeAway"/>
-            <RadioButton Content="Automatic" Checked="OnBecomeAutomatic" IsChecked="True"/>
-         </StackPanel>
-      </StackPanel>
-      <!-- Time left -->
-      <StackPanel Margin="5" Orientation="Horizontal">
-         <Label Content="Time left:"/>
-         <Label x:Name="timeLeftLabel" Content="none" Margin="-6,0,0,0"/>
-      </StackPanel>
+        </StackPanel>
+        <!-- Set and start timer -->
+        <StackPanel Margin="5,5,54,5" Orientation="Horizontal">
+            <Button x:Name="startButton" Content="Start" Width="60" Click="OnStartButtonClick"/>
+            <Label Height="23" Content="Then wait"/>
+            <TextBox x:Name="delayTime" Height="20" TextWrapping="Wrap" Text="1" Width="60" VerticalContentAlignment="Stretch" VerticalAlignment="Bottom"/>
+            <Label Content="hours"/>
+        </StackPanel>
+        <!-- Requested future state -->
+        <StackPanel x:Name="futureStatePanel" Margin="0,0,155,0">
+            <Label Margin="5,0" Height="23" Content="Then set status to"/>
+            <StackPanel Margin="20,0">
+                <RadioButton Content="Available" Checked="OnBecomeAvailable"/>
+                <RadioButton Content="Busy" Checked="OnBecomeBusy"/>
+                <RadioButton Content="Do Not Disturb" Checked="OnBecomeDoNotDisturb"/>
+                <RadioButton Content="Appear Away" Checked="OnBecomeAway"/>
+                <RadioButton Content="Automatic" Checked="OnBecomeAutomatic" IsChecked="True"/>
+            </StackPanel>
+        </StackPanel>
+        <!-- Time left -->
+        <StackPanel Margin="5,5,95,5" Orientation="Horizontal">
+            <Label Content="Time left:"/>
+            <Label x:Name="timeLeftLabel" Content="none" Margin="-6,0,0,0"/>
+        </StackPanel>
+        <Button Margin="149,0,18,0" VerticalAlignment="Bottom" Width="60"
+            x:Name="exitButton" Content="Exit"
+            Click="exitButton_Click" HorizontalAlignment="Right"/>
     </StackPanel>
 </Window>

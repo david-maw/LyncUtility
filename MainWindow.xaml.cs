@@ -479,6 +479,11 @@ namespace LyncUtility
          }
       }
 
+      private void exitButton_Click(object sender, RoutedEventArgs e)
+      {
+         App.Current.Shutdown();
+      }
+
       /// <summary>
       /// Identify if a particular SystemException is one of the exceptions which may be thrown
       /// by the Lync Model API.
