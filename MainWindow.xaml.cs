@@ -200,16 +200,25 @@ namespace LyncUtility
       private void ActivateForm(object Sender, EventArgs e)
       {
          // Show the form when the user double clicks on the notify icon.
+         BringToForeground();
+      }
 
-         // Set the WindowState to normal if the form is minimized.
-         if (this.WindowState == WindowState.Minimized)
+      /// <summary>Brings main window to foreground.</summary>
+      public void BringToForeground()
+      {
+         // Set the WindowState to normal if the form is not visible.
+         if (this.WindowState == WindowState.Minimized || this.Visibility == Visibility.Hidden)
          {
             this.ShowInTaskbar = true;
+            this.Show();
             this.WindowState = WindowState.Normal;
          }
 
-         // Activate the form.
+         // Activate the form and bring it to the foreground.
          this.Activate();
+         this.Topmost = true;
+         this.Topmost = false;
+         this.Focus();
       }
 
       /// <summary>
